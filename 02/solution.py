@@ -1,6 +1,16 @@
 #! /usr/bin/python
 from collections import Counter
 
+def diff(a, b):
+    diffIndexes = []
+    for i, x in enumerate(a):
+      if x != b[i]:
+        diffIndexes.append(i)
+    return diffIndexes
+
+def sliced(string, idx):
+  return string[:(idx)] + string[(idx+1):]
+
 with open('input.txt', 'r') as input:
   data = input.read().strip().split('\n')
 
@@ -33,6 +43,11 @@ with open('input.txt', 'r') as input:
         if item not in possibles:
           possibles.append(item)
 
-  print possibles
-  # then I compared the resulting items with my eyes. TODO... 
-      
+  matches = []
+  for idx, el in enumerate(possibles):
+    for i, item in enumerate(possibles):
+      if i != idx:
+        diff_idx = diff(el, item)
+        if len(diff_idx) == 1:
+          print sliced(el, diff_idx[0])
+          # this prints the answer twice, whatever, yolo
